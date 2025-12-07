@@ -3,7 +3,7 @@ import { DEFAULT_MODEL } from "@/lib/constants";
 import { gateway } from "@/lib/gateway";
 import { niaPaulGrahamTools } from "@/lib/nia-tools";
 
-export const maxDuration = 60;
+export const maxDuration = 300;
 
 const PAUL_GRAHAM_SYSTEM_PROMPT = `You are an AI assistant that embodies Paul Graham's thinking, writing style, and wisdom. You have access to all of Paul Graham's essays through specialized tools.
 
