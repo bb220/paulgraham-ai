@@ -1,14 +1,23 @@
-export const DEFAULT_MODEL = "xai/grok-3";
-
+export const DEFAULT_MODEL = "anthropic/claude-sonnet-4.5";
 export const SUPPORTED_MODELS = [
-  "amazon/nova-lite",
-  "amazon/nova-micro",
-  "anthropic/claude-3.5-haiku",
-  "google/gemini-2.0-flash",
-  "google/gemma2-9b-it",
-  "meta/llama-3.1-8b",
-  "mistral/ministral-3b",
-  "openai/gpt-3.5-turbo",
-  "openai/gpt-4o-mini",
-  "xai/grok-3",
-];
+  "anthropic/claude-sonnet-4.5",
+  "moonshotai/kimi-k2-thinking",
+  "xai/grok-4-fast-reasoning",
+  "alibaba/qwen3-vl-thinking",
+] as const;
+
+export type SupportedModel = (typeof SUPPORTED_MODELS)[number];
+
+export const MODEL_DISPLAY_NAMES: Record<SupportedModel, string> = {
+  "anthropic/claude-sonnet-4.5": "Claude Sonnet 4.5",
+  "moonshotai/kimi-k2-thinking": "Kimi K2 Thinking",
+  "xai/grok-4-fast-reasoning": "Grok 4 Fast Reasoning",
+  "alibaba/qwen3-vl-thinking": "Qwen3 VL Thinking",
+};
+
+export const MODEL_LOGOS: Record<SupportedModel, string> = {
+  "anthropic/claude-sonnet-4.5": "/claude.png",
+  "moonshotai/kimi-k2-thinking": "/kimi.png",
+  "xai/grok-4-fast-reasoning": "/xai.png",
+  "alibaba/qwen3-vl-thinking": "/alibaba.png",
+};

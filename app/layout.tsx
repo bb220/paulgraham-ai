@@ -14,8 +14,25 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AI Gateway Demo",
-  description: "A demo of the Vercel AI Gateway with the AI SDK by Vercel",
+  title: "Paul Graham Agent",
+  description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+  openGraph: {
+    title: "Paul Graham Agent",
+    description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Paul Graham Agent",
+    description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+  },
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+    viewportFit: "cover",
+  },
 };
 
 export default function RootLayout({
