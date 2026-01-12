@@ -1,6 +1,6 @@
-# Paul Graham AI Agent
+# Simon W AI Agent
 
-AI agent that answers questions grounded in 120+ Paul Graham essays. Powered by [Nia](https://trynia.ai).
+AI agent that answers questions grounded in 4000+ Simon Willison blog posts. Powered by [Nia](https://trynia.ai).
 
 ## Quick Start
 
@@ -18,4 +18,3 @@ AI agent that answers questions grounded in 120+ Paul Graham essays. Powered by 
 ## Docs
 
 [docs.trynia.ai](https://docs.trynia.ai)
-# paulgraham-ai
