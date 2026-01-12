@@ -45,9 +45,9 @@ async function niaFetch(
 }
 
 function getSourceId(): string {
-  const sourceId = process.env.PAUL_GRAHAM_NIA_SOURCE;
+  const sourceId = process.env.NIA_SOURCE;
   if (!sourceId) {
-    throw new Error("PAUL_GRAHAM_NIA_SOURCE environment variable is not set");
+    throw new Error("NIA_SOURCE environment variable is not set");
   }
   return sourceId;
 }
