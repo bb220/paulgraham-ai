@@ -414,7 +414,7 @@ export function Chat() {
             )
           </p>
           <p className="text-xs text-muted-foreground/60 mt-1">
-            Forked from Arlan Rakhmetzhanov`&apos;`s Paul Graham Agent
+            Forked from Arlan Rakhmetzhanov&apos;s Paul Graham Agent
           </p>
         </footer>
       )}
