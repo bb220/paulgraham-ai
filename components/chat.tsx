@@ -4,8 +4,7 @@ import { useChat } from "@ai-sdk/react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ModelSelector } from "@/components/model-selector";
-import { ArrowUpIcon, PlusIcon, SearchIcon, BookOpenIcon, FileTextIcon, GlobeIcon, CopyIcon, CheckIcon, ThumbsUpIcon, ThumbsDownIcon, GithubIcon } from "lucide-react";
-import Image from "next/image";
+import { ArrowUpIcon, SearchIcon, BookOpenIcon, FileTextIcon, GlobeIcon, CopyIcon, CheckIcon, ThumbsUpIcon, ThumbsDownIcon } from "lucide-react";
 import { useState, useEffect, useRef, useCallback } from "react";
 import type { UIMessage } from "@ai-sdk/react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -135,7 +134,7 @@ export function Chat() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const { messages, error, sendMessage, regenerate, setMessages, stop, status } = useChat();
+  const { messages, error, sendMessage, regenerate, status } = useChat();
 
   const handleFeedback = (messageId: string, type: "like" | "dislike") => {
     setFeedbacks((prev) => ({
@@ -153,12 +152,6 @@ export function Chat() {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
-
-  const handleNewChat = () => {
-    stop();
-    setMessages([]);
-    setInput("");
-  };
 
   const adjustTextareaHeight = useCallback(() => {
     const textarea = textareaRef.current;
@@ -421,7 +414,7 @@ export function Chat() {
             )
           </p>
           <p className="text-xs text-muted-foreground/60 mt-1">
-            Forked from Arlan Rakhmetzhanov's Paul Graham Agent
+            Forked from Arlan Rakhmetzhanov`&apos;`s Paul Graham Agent
           </p>
         </footer>
       )}
