@@ -15,17 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Paul Graham Agent",
-  description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+  title: "Simon Willison Agent",
+  description: "Ask Simon Willison anything— an AI agent grounded in 4000+ blog posts, powered by Nia",
   openGraph: {
-    title: "Paul Graham Agent",
-    description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+    title: "Simon Willison Agent",
+    description: "Ask Simon Willison anything— an AI agent grounded in 4000+ blog posts, powered by Nia",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Paul Graham Agent",
-    description: "Ask Paul Graham anything — an AI agent grounded in 120+ essays, powered by Nia",
+    title: "Simon Willison Agent",
+    description: "Ask Simon Willison anything— an AI agent grounded in 4000+ blog posts, powered by Nia",
   },
   viewport: {
     width: "device-width",
@@ -44,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`} suppressHydrationWarning
       >
         <ThemeProvider
           attribute="class"
