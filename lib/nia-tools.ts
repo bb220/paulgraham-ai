@@ -18,7 +18,7 @@ const log = {
   response: (data: unknown) => {
     const preview = JSON.stringify(data, null, 2);
     const lines = preview.split('\n');
-    const truncated = lines.length > 20 
+    const truncated = lines.length > 20
       ? lines.slice(0, 20).join('\n') + '\n   ... (truncated)'
       : preview;
     console.log(`   Response:`, truncated.split('\n').join('\n   '));
@@ -52,12 +52,9 @@ function getSourceId(): string {
   return sourceId;
 }
 
-/**
- * Semantic search over Paul Graham's essays
- */
-export const searchEssays = tool({
+export const searchPosts = tool({
   description:
-    "Search Paul Graham's essays using semantic search. Use this to find essays related to a topic or concept. Returns relevant chunks with context.",
+    "Search Simon's posts using semantic search. Use this to find posts related to a topic or concept. Returns relevant chunks with context.",
   inputSchema: z.object({
     query: z
       .string()
@@ -65,7 +62,7 @@ export const searchEssays = tool({
   }),
   execute: async ({ query }) => {
     const sourceId = getSourceId();
-    log.tool("searchEssays", { query, sourceId });
+    log.tool("searchPosts", { query, sourceId });
     const response = await niaFetch("/query", {
       method: "POST",
       body: JSON.stringify({
@@ -78,33 +75,30 @@ export const searchEssays = tool({
 
     if (!response.ok) {
       const error = await response.text();
-      log.error("searchEssays", error);
+      log.error("searchPosts", error);
       throw new Error(`Nia API error: ${error}`);
     }
 
     const data = await response.json();
     const sourcesCount = data.sources?.length || 0;
-    log.success("searchEssays", `Found ${sourcesCount} sources`);
+    log.success("searchPosts", `Found ${sourcesCount} sources`);
     log.response(data);
     return data;
   },
 });
 
-/**
- * Get the tree structure of all Paul Graham essays
- */
-export const browseEssays = tool({
+export const browsePosts = tool({
   description:
-    "Get the complete tree structure of all Paul Graham essays. Use this to see what essays are available and how they're organized.",
+    "Get the complete tree structure of all Simon posts. Use this to see what posts are available and how they're organized.",
   inputSchema: z.object({}),
   execute: async () => {
-    log.tool("browseEssays", {});
+    log.tool("browsePosts", {});
     const sourceId = getSourceId();
     const response = await niaFetch(`/data-sources/${sourceId}/tree`);
 
     if (!response.ok) {
       const error = await response.text();
-      log.error("browseEssays", error);
+      log.error("browsePosts", error);
       throw new Error(`Nia API error: ${error}`);
     }
 
@@ -114,24 +108,21 @@ export const browseEssays = tool({
       pageCount: data.page_count,
       baseUrl: data.base_url,
     };
-    log.success("browseEssays", `Found ${result.pageCount} pages`);
+    log.success("browsePosts", `Found ${result.pageCount} pages`);
     log.response(result);
     return result;
   },
 });
 
-/**
- * List essays in a virtual directory
- */
 export const listDirectory = tool({
   description:
-    "List Paul Graham essays in a specific virtual directory path. Use this to explore essays at a particular location in the tree structure.",
+    "List Simon posts in a specific virtual directory path. Use this to explore posts at a particular location in the tree structure.",
   inputSchema: z.object({
     path: z
       .string()
       .default("/")
       .describe(
-        'Virtual path to list (e.g., "/" for root). Get paths from browseEssays first.'
+        'Virtual path to list (e.g., "/" for root). Get paths from browsePosts first.'
       ),
   }),
   execute: async ({ path }) => {
@@ -161,21 +152,18 @@ export const listDirectory = tool({
   },
 });
 
-/**
- * Read the full content of a Paul Graham essay
- */
-export const readEssay = tool({
+export const readPost = tool({
   description:
-    "Read the full content of a specific Paul Graham essay by its virtual path. Use this to get the complete text of an essay after finding it via search or browse.",
+    "Read the full content of a specific Simon post by its virtual path. Use this to get the complete text of an post after finding it via search or browse.",
   inputSchema: z.object({
     path: z
       .string()
       .describe(
-        'Virtual path to the essay (e.g., "/startups.md"). Get paths from browseEssays or listDirectory.'
+        'Virtual path to the post (e.g., "/startups.md"). Get paths from browsePosts or listDirectory.'
       ),
   }),
   execute: async ({ path }) => {
-    log.tool("readEssay", { path });
+    log.tool("readPost", { path });
     const sourceId = getSourceId();
     const params = new URLSearchParams({ path });
     const response = await niaFetch(
@@ -184,7 +172,7 @@ export const readEssay = tool({
 
     if (!response.ok) {
       const error = await response.text();
-      log.error("readEssay", error);
+      log.error("readPost", error);
       throw new Error(`Nia API error: ${error}`);
     }
 
@@ -195,18 +183,15 @@ export const readEssay = tool({
       content: data.content,
     };
     const contentLength = result.content?.length || 0;
-    log.success("readEssay", `Read ${contentLength} chars from ${path}`);
+    log.success("readPost", `Read ${contentLength} chars from ${path}`);
     console.log(`   URL: ${result.url}`);
     return result;
   },
 });
 
-/**
- * Search essays using regex pattern
- */
-export const grepEssays = tool({
+export const grepPosts = tool({
   description:
-    "Search Paul Graham's essays using a regex pattern. Use this to find specific phrases, quotes, or text patterns across all essays. Supports case sensitivity, whole word matching, and context lines.",
+    "Search Simon's posts using a regex pattern. Use this to find specific phrases, quotes, or text patterns across all posts. Supports case sensitivity, whole word matching, and context lines.",
   inputSchema: z.object({
     pattern: z
       .string()
@@ -266,21 +251,21 @@ export const grepEssays = tool({
       .default(false)
       .describe("Add >>markers<< around matched text in results"),
   }),
-  execute: async ({ 
-    pattern, 
-    path, 
-    contextLines, 
-    linesAfter, 
-    linesBefore, 
-    caseSensitive, 
-    wholeWord, 
-    fixedString, 
-    maxMatchesPerFile, 
-    maxTotalMatches, 
-    outputMode, 
-    highlight 
+  execute: async ({
+    pattern,
+    path,
+    contextLines,
+    linesAfter,
+    linesBefore,
+    caseSensitive,
+    wholeWord,
+    fixedString,
+    maxMatchesPerFile,
+    maxTotalMatches,
+    outputMode,
+    highlight
   }) => {
-    log.tool("grepEssays", { pattern, path, contextLines, linesAfter, linesBefore, caseSensitive, wholeWord, fixedString, outputMode });
+    log.tool("grepPosts", { pattern, path, contextLines, linesAfter, linesBefore, caseSensitive, wholeWord, fixedString, outputMode });
     const sourceId = getSourceId();
     const response = await niaFetch(`/data-sources/${sourceId}/grep`, {
       method: "POST",
@@ -302,7 +287,7 @@ export const grepEssays = tool({
 
     if (!response.ok) {
       const error = await response.text();
-      log.error("grepEssays", error);
+      log.error("grepPosts", error);
       throw new Error(`Nia API error: ${error}`);
     }
 
@@ -316,18 +301,15 @@ export const grepEssays = tool({
       totalMatches: data.total_matches,
       filesSearched: data.files_searched,
     };
-    log.success("grepEssays", `Found ${result.totalMatches} matches in ${result.filesSearched} files`);
+    log.success("grepPosts", `Found ${result.totalMatches} matches in ${result.filesSearched} files`);
     log.response(result);
     return result;
   },
 });
 
-/**
- * Web search for additional context
- */
 export const webSearch = tool({
   description:
-    "Search the web for information not available in Paul Graham's essays. Use this sparingly, only for recent events or external context.",
+    "Search the web for information not available in Simon's posts. Use this sparingly, only for recent events or external context.",
   inputSchema: z.object({
     query: z.string().describe("Search query"),
     numResults: z
@@ -366,9 +348,6 @@ export const webSearch = tool({
   },
 });
 
-/**
- * Get full source content by identifier
- */
 export const getSourceContent = tool({
   description:
     "Retrieve the full content of a specific source file or document. Use this when you have a source identifier from search results and need the complete content.",
@@ -415,12 +394,12 @@ export const getSourceContent = tool({
 });
 
 // Export all tools as a single object for easy use
-export const niaPaulGrahamTools = {
-  searchEssays,
-  browseEssays,
+export const niaSimonTools = {
+  searchPosts,
+  browsePosts,
   listDirectory,
-  readEssay,
-  grepEssays,
+  readPost,
+  grepPosts,
   webSearch,
   getSourceContent,
 };
